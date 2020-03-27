@@ -1,0 +1,297 @@
+---
+title: "CLUCDUH Algoritması ile Mushroom Veri Setinin Kümelenmesi"
+author: Yusuf Altınok
+output: html_notebook
+---
+
+# Çalışma Ortamının Hazırlanması
+```{r Çalışma Ortamının Hazırlanması}
+
+library(cba) # ROCK kümeleme algoritması ve mushroom veri seti için.
+library(fpc) # küme değerlendirme ölçümleri için.
+library(clusterSim) # küme değerlendirme ölçümleri (davies - bouldin ) için.
+library(dplyr) # count, group by, starts_with, rename gibi farklı beceriler için.
+library(stringr) # metinsel işlemler ve değişken adı değiştirmek için.
+
+```
+
+## Veri Seti Ayarları
+```{r Veri Seti Ayarları}
+data("Mushroom")
+str(Mushroom)
+summary(Mushroom) # veri seti frekanslar ve değişkenler açısından incelendi. stalk-root değişkeninde 2480 adet kayıp veri mevcut.
+
+veri_seti <- Mushroom[-c(colnames(Mushroom) == "class")]; # class değişkeni veri setinden dışlandı.
+colnames(veri_seti) <- str_replace_all(colnames(veri_seti),"-", "_"); # aynı zamanda, bir değişken adını bir R nesnesine verilmesinde sorun yaşattığı için, değişken adlarında yer alan eksi (-) işareti yerine alt çizgi işareti ile değiştirildi.
+veri_seti <- rename(veri_seti, "is_bruises" = "bruises?")
+veri_seti$stalk_surface_above_ring <- as.factor(str_replace_all(veri_seti$stalk_surface_above_ring, "ibrous", "fibrous")); veri_seti$stalk_surface_below_ring <- as.factor(str_replace_all(veri_seti$stalk_surface_below_ring, "ibrous", "fibrous")) # mushroom veri setinin stalk_surface_above_ring ve stalk_surface_below_ring değişkenlerindeki "ibrous" şeklindeki yazım hatası "fibrous" olarak düzeltildi ve veri setine eklendi.
+
+ikili <- as.dummy(veri_seti) # tüm nesneler ikili veriye çevrildi.
+uzaklik <- as.matrix(dist(ikili, method = "binary", diag = TRUE)) # 8124 nesne için nXn boyutlu bir bir uzaklık matrisi hesaplandı.
+
+```
+
+# CLUCDUH Algoritması
+
+Tanımlamalar
+
+CLUCDUH algoritması, eşit ayırma parametresine dayalı bir hiyerarşik kümeleme algoritmasıdır.
+
+- N   : Bir değişkendeki kayıt sayısı
+- NV  : Bir değişkenin kategori sayısı
+- NV_i: Kategorilerin sıklık sayısı
+- CA  : N/NV
+- EP  : Eşit ayırma parametresi. sum(abs(CA-NV_i))
+
+## Algoritmanın Uygulanması: Parametrelerin Fonksiyonları
+
+```{r Algoritmanın Uygulanması}
+
+# fonksiyolar:
+N_bul <- function(girdi) {
+  nrow(girdi)
+}
+
+NV_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  lapply(girdi, function(x) length(unique(x)))
+} # NV: değişkenlerdeki tane kategori sayısı bulunacak.
+
+CA_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  CA = N_bul(girdi) / unlist(NV_bul(girdi))
+  return(as.list(CA))
+}
+
+NV_i_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  sapply(girdi, table)
+} # NV_i: tüm kategorilerin tekrar sayısı.
+
+CA_NV_i_fark_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  CA = CA_bul(girdi)
+  NV_i = NV_i_bul(girdi)
+  farklar = sapply(1:ncol(girdi), fark_tekil <- function(c) {
+    CA[[c]] - NV_i[[c]]
+  })
+  names(farklar) <- names(CA)
+  return(farklar)
+} # fonksiyon kendi içerisinde CA ve NV_i bulma fonksiyonlarını çağırıp bulduğu değerleri tüm sütunlara uyarlıyor, yani r değerine göre teker teker hesaplıyor.
+
+EP_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  lapply(
+    lapply(
+      CA_NV_i_fark_bul(girdi),
+      abs),
+    sum)
+}  # CA_NV_i_fark_bul fonksiyonuna göre EP değerini tespit ediyor. 
+
+nincimin_indeks <- function(liste, n) {
+  nincimin <- function(liste, n) {
+       sira = sort(unlist(liste), decreasing = FALSE)[n]
+       return(sira)
+  } # verilen n'inci minimum değeri tespit eder.
+  which(liste == nincimin(liste, n)) # n'ninci minimum değerin ilgili listedeki indeksini verir.
+}
+
+
+bolunme_kriteri_bul <- function(girdi) {
+  girdi <- droplevels(girdi)
+  EP <- EP_bul(girdi)
+  for (n in 1:ncol(girdi)) {
+    i <- nincimin_indeks(EP, n)
+    if (length(i) == 1 & length(unique(girdi[, i])) > 1) { # minEP'li değişkenin birden fazla faktörünün olması gerekir. EP=0 durumunun, tek faktörlülükten mi, bir tam katlanma hali olduğu için mi ortaya çıktığı tespit edilmeli. Gelen minEP'li değişkenin birden fazla faktörü var ise, bölünme kriterini veriyor.
+        bk <- names(EP[i])
+        return(bk)
+    }
+    else if (length(i) > 1) { # minEP değerine sahip birden fazla değişken olmasına ilişkin senaryolar bu koşul altında toplandı.
+      if (sum(unlist(EP[i])) > 0) { # EP değerleri pozitif değere sahipse.
+        set.seed(1883); bk <- sample(names(EP[i]), 1)
+        warning(paste(bk, "degiskeni ile", paste(names(EP[i]), sep = " "), "degiskeni esit min EP degerlerine sahiptir. Bolunme kriteri, bunlar arasindan rassal ornekleme ile secildi.", sep = " "))
+        return(bk)
+        }
+      else if (sum(unlist(EP[i])) == 0) { # EP değerleri 0 olarak gelmişse.
+        if (length(which(lengths(lapply(girdi[, i], levels)) > 1)) > 0) { # 1'den büyük faktöre sahip değişkenlerin sayısı 0'den fazlaysa.
+          ij <- which(colnames(girdi) %in% colnames(girdi[, i][lengths(lapply(girdi[, i], levels)) > 1])) # tüm EP değişkenleri 0 iken bazılarının çok faktörlü değişkenler olması olasılığını değerlendiriyor. ij ile, çok faktörlülerin indisi tespit ediliyor.
+          set.seed(1883); bk <- sample(names(EP[ij]), 1) # bu değişkenler arasında rassal örnekleme yapılıyor.
+          warning("EP degeri 0'a esit olan birden fazla degisken mevcut. Bu degiskenlerin, birden fazla faktore sahip olanlari arasindan rassal ornekleme ile ", bk, " degiskeni secildi. Varsa diğerleri: ", paste(names(EP[ij]), sep = " "), sep = " ")          
+          return(bk)
+        }
+        else if (length(which(lengths(lapply(girdi[, i], levels)) > 1)) == 0 & ncol(girdi) == length(i)) { # tüm değişkenler, tek bir faktörden oluştuğu için uyorsa, rassal örnekleme yoluna gidilir.
+        set.seed(1883); bk <- sample(names(EP[i]), 1)
+        warning("Yaprak düğüme ulaşıldı. Tum degiskenler, tek faktorludur ve EP degerleri 0'a esittir. Bunlar arasindan rassal ornekleme ile", bk, " degiskeni secildi. Diğerleri:", paste(names(EP[i]), sep = " "), sep = " ")
+        return(bk)
+        }
+      }
+    }
+  }
+} # 1. verilen verinin EP değeri min olan değişkenini tespit ediyor. yani hangi değişkenin kategorilerine göre bölünmesi gerektiğini veriyor. normalde verilerin hangi değişkene göre hiyerarşik kırılım göstereceği bilinir. ülke>bölge>şehir>ilçe gibi. burada ise  her bölümlenmeden sonra hangi değişkene göre kırılım göstereceği "EP" veya "bolunme_kriteri" hesaplayarak biz tespit ediyoruz. ama bunu her bölümlenmeden sonra tekrar etmemiz gerekiyor, yani  alt kırılımların hangi değişkene göre olacağını bilmek için EP'yi her seferinde yeniden hesaplatmamız gerekiyor.
+ # 2. girdi olarak kullanılan veri setine göre EP değerini tespit ettikten sonra hangi değişkenin bu koşula uyduğunu çıktı olarak veriyor. bu durumda tüm değerleri aynı olan, yani aslında dallanmaya müsait olmayan, algoritmayı yanıltan bu değişkenlerin atlanıp EP değeri en küçük olan diğer değişkenin tespit edilmesi gerekiyor. oluşturulan fonksiyon yardımıyla min(EP) değerine sahip olan değişkenin tek kategorisi varsa, ikinci en küçük EP değerine sahip değişkeni tespit ediyor. yani aslında tek kategorisi olmayan min(EP) değerini sağlayan değişkene ulaşmaya çalışıyor.
+ # 3. eğer tek kategorisi olmayan birden fazla değişken min(EP) koşuluna aynı anda uyuyorsa, bu değişkenler arasında rassal bir seçim yapılıyor. bu özellik, bir veri setinden algoritmanın her çalıştırılmasında üretilecek kümelerin, birbirinin aynısı olarak üretilmesi güvencesini bozan bir etkiye sahiptir. sonuçların tekrarlanabilir olması açısından set.seed(1883) fonksiyonu kullanıldı.
+
+veri_bol <- function(girdi) {
+  girdi <- droplevels(girdi)
+  bk <- bolunme_kriteri_bul(girdi)
+  bolunmus <- list()
+  for (i in 1:length(levels(girdi[, bk]))) {
+    bolunmus[i] <- split(girdi,
+                      girdi[, bk],
+                      drop = TRUE)[i]
+    names(bolunmus)[i] <- names(split(girdi,
+                      girdi[, bk],
+                      drop = TRUE)[i])
+  }
+  bolunmus <- lapply(bolunmus, function(x) x[, -which(colnames(x) == bk)])
+  bolunmus <- lapply(bolunmus, droplevels)
+  return(assign(bk, bolunmus))
+  print(bk, "degiskenine gore bolundu.", sep = " ")
+} # girdi olarak gösterilecek verinin EP parametresini tespit eder ve en küçük EP parametresine sahip değişkene göre veri setini böler. liste olarak global environment'a aktarır.
+
+bol_adla <- function(adim = "d", bolunecekveri) {
+  bk = bolunme_kriteri_bul(bolunecekveri)
+  assign(paste(adim, bk, sep = "."), veri_bol(bolunecekveri), envir = .GlobalEnv)
+  print(paste(adim, "verisi,", bk, "degiskenine gore bolundu.", sep = " "))
+}
+
+
+```
+
+
+
+
+## Parametrelerin Hesaplanması
+```{r Parametrelerin Hesaplanması}
+# tanımlanan data.frame veya matrix türünden clucduh içinalgoritması için gerekli parametler şöyle hesaplanabilir:
+N <- N_bul(veri_seti) 
+
+NV <- NV_bul(veri_seti)
+
+NVi <- NV_i_bul(veri_seti)
+
+farklar <- CA_NV_i_fark_bul(veri_seti)
+
+CA <- CA_bul(veri_seti)
+
+EP <- EP_bul(veri_seti)
+
+bolunme_kriteri_bul(veri_seti) # tanımlanan verinin hangi değişkene göre bölünmesi gerektiğini verir.
+
+
+# oluşan veri setlerine göre alt dallara bir R listesi olarak şöyle erişilebilir:
+bol_adla("v1", veri_seti) # stalk_shape
+
+
+  bol_adla("v1.1", v1.stalk_shape[[1]]) # is_bruises.                |adım: 1, k: 1
+  
+    bol_adla("v1.1.1", v1.1.is_bruises[[1]]) # odor.                      ||adım: 2, k: 1
+  
+      bol_adla("v1.1.1.1", v1.1.1.odor[[1]]) # spore_print_color                |||adım: 3, k: 1
+      bol_adla("v1.1.1.2", v1.1.1.odor[[2]]) # spore_print_color                |||adım: 3, k: 2
+      bol_adla("v1.1.1.3", v1.1.1.odor[[3]]) # stalk_root                       |||adım: 3, k: 3
+      bol_adla("v1.1.1.4", v1.1.1.odor[[4]]) # population                       |||adım: 3, k: 4
+  
+    bol_adla("v1.1.2", v1.1.is_bruises[[2]]) # cap_surface                ||adım: 2, k: 2
+  
+      bol_adla("v1.1.2.1", v1.1.2.cap_surface[[1]]) # stalk_color_above_ring    |||adım: 3, k: 5
+      bol_adla("v1.1.2.2", v1.1.2.cap_surface[[2]]) # habitat                   |||adım: 3, k: 6
+      bol_adla("v1.1.2.3", v1.1.2.cap_surface[[3]]) # gill_spacing              |||adım: 3, k: 7
+  
+  bol_adla("v1.2", v1.stalk_shape[[2]]) # ring_type                  |adım: 1, k: 2
+  
+    bol_adla("v1.2.1", v1.2.ring_type[[1]]) # habitat                     ||adım: 2, k: 3
+  
+      bol_adla("v1.2.1.1", v1.2.1.habitat[[1]]) # population                    |||adım: 3, k: 8
+      bol_adla("v1.2.1.2", v1.2.1.habitat[[2]]) # stalk_color_below_ring        |||adım: 3, k: 9
+      bol_adla("v1.2.1.3", v1.2.1.habitat[[3]]) # stalk_color_below_ring        |||adım: 3, k: 10
+      bol_adla("v1.2.1.4", v1.2.1.habitat[[4]]) # stalk_color_below_ring        |||adım: 3, k: 11
+  
+    bol_adla("v1.2.2", v1.2.ring_type[[2]]) # cap_shape                   ||adım: 2, k: 4
+      bol_adla("v1.2.2.1", v1.2.2.cap_shape[[1]]) # stalk_color_below_ring      |||adım: 3, k: 12
+      bol_adla("v1.2.2.2", v1.2.2.cap_shape[[2]]) # stalk_color_below_ring      |||adım: 3, k: 13
+
+
+
+```
+
+## Küme Değerlendirme Ölçümleri
+```{r Küme Değerlendirme Ölçümleri}
+
+degerlendirme_vi_clucduh1_k2 <- cluster.stats(uzaklik, clucduh1_2_kume, compareonly = TRUE)
+degerlendirme_vi_clucduh2_k4 <- cluster.stats(uzaklik, clucduh2_4_kume, compareonly = TRUE)
+
+
+degerlendirme_clucduh_k2 <- cluster.stats(uzaklik, clucduh_k2) # adım=1 k=2 için hesaplanan ölçüler
+degerlendirme_clucduh_k4 <- cluster.stats(uzaklik, clucduh_k4) # adım=2 k=4 için hesaplanan ölçüler
+degerlendirme_clucduh_k13 <- cluster.stats(uzaklik, clucduh_k13) # adım=3 k=13 için hesaplanan ölçüler
+
+
+# davies- bouldin ölçüsüyle küme değerlendirme:
+
+degerlendirmedb_clucduh_k2 <- index.DB(x = ikili, cl = clucduh_k2)
+degerlendirmedb_clucduh_k4 <- index.DB(x = ikili, cl = clucduh_k4)
+degerlendirmedb_clucduh_k13 <- index.DB(x = ikili, cl = clucduh_k13)
+
+
+# G2 ölçüsüyle küme değerlendirme:
+# kume degerlendirirken orneklemede kullanılacak indeksler oluşturuldu. ilgili rassal indeksler set.seed() fonksiyonu ile sabitleştirilip her seferinde aynı sayılara erişilebilir.
+
+set.seed(1883); orneklem_n1200 <- sample(1:8124, 1200) # rassal olarak 1200 nesne seçildi. tekrarlanabilir olması açısından set.seed(1883) çekirdeği ile sabitlendi.
+
+time_degerlendir <- vector()
+j <- 100
+for (i in 1:15) {
+  set.seed(1883); time_degerlendir[i] <- system.time(cluster.stats(uzaklik[sample(1:8124, j), sample(1:8124, j)], clucduh_k2[sample(1:8124, j)], G2 = TRUE))["elapsed"]
+  j <- j+100
+} # 100-1500 aralığındaki örneklem büyüklüğüne göre clucduh_k2 için örnek bir G2 işlem süresi hesaplaması.
+
+
+
+# 2 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_clucduh_k2_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], clucduh_k2[orneklem_n1200], G2 = TRUE) # adım=1 k=2 ve n=1200 için hesaplanan G2 indeksi
+#üstteki çalıştırıldı
+
+
+# 4 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_clucduh_k4_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], clucduh_k4[orneklem_n1200], G2 = TRUE) # adım=2 k=4 ve n=1200 için hesaplanan G2 indeksi
+
+
+# 13 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_clucduh_k13_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], clucduh_k13[orneklem_n1200], G2 = TRUE) # adım=3 k=13 ve n=1200 için hesaplanan G2 indeksi
+
+
+# küme değerlendirme ölçülerinin özetlenmesi
+kume_degerlendirme_faktorleri <- c(names(degerlendirme_clucduh_k2), names(degerlendirmedb_clucduh_k2)) # "kume_degerlendirme" fonksiyonu, oluşturulan kümeler değerlendirme ölçülerinin adını bir vektörde toplar.
+
+kume_degerlendirme <- lapply(
+    mget(objects()[startsWith(objects(), "degerlendirme")], mode = "list", envir = .GlobalEnv),
+    function(x) x[kume_degerlendirme_faktorleri]) # kume_degerlendirme_faktorleri temel alınarak tüm kume degerlendirme ölçülerini kume_degerlendirme içerisinde birleştirir.
+
+
+capture.output(print(sapply(
+    mget(objects()[startsWith(objects(), "degerlendirme_")], mode = "list", envir = .GlobalEnv),
+    function(x) x[]), max = 100000),
+  file = "kume_degerlendirme.txt"
+  ) # küme değerlendirme ölçülerinin bir ön izlemesi.
+
+capture.output(print(sapply(
+    mget(objects()[startsWith(objects(), "degerlendirmedb")], mode = "list", envir = .GlobalEnv),
+    function(x) x[]), max = 100000),
+  file = "kume_degerlendirme_db.txt"
+  ) # küme değerlendirme ölçülerinin bir ön izlemesi.
+
+```
+
+## Tablolaştırma
+```{r Tablolaştırma}
+
+table(veri_seti$stalk_shape)
+table(veri_seti$stalk_shape, veri_seti$is_bruises)
+ftable(veri_seti$stalk_shape, veri_seti$is_bruises, Mushroom$class)
+
+
+```
+
+
+

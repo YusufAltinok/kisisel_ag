@@ -1,0 +1,182 @@
+---
+title: "ROCK Algoritması ile Mushroom Veri Setinin Kümelenmesi"
+author: Yusuf Altınok
+output: html_notebook
+---
+
+# Çalışma Ortamının Hazırlanması
+```{r Kütüphane ve Ortam Ayarları}
+
+library(cba) # ROCK kümeleme algoritması ve mushroom veri seti için.
+library(fpc) # küme değerlendirme ölçümleri için.
+library(clusterSim) # küme değerlendirme ölçümleri (davies - bouldin ) için.
+library(dplyr) # count, group by, starts_with, rename gibi farklı beceriler için.
+library(stringr) # metinsel işlemler ve değişken adı değiştirmek için.
+
+```
+
+## Veri Seti Ayarları
+```{r Veri Seti Ayarları}
+data("Mushroom") # Guha'nin da makalesinde kullandigi veri seti kullanima alindi.
+str(Mushroom) # veri setine ve değişkenlere ilişkin birtakım özellikler incelenebilir
+summary(Mushroom) # veri seti frekanslar ve değişkenler açısından incelendi. stalk-root değişkeninde 2480 adet kayıp veri mevcut.
+
+veri_seti <- Mushroom[-c(colnames(Mushroom) == "class")]; # class değişkeni veri setinden dışlandı.
+colnames(veri_seti) <- str_replace_all(colnames(veri_seti),"-", "_"); # aynı zamanda, bir değişken adını bir R nesnesine verilmesinde sorun yaşattığı için, değişken adlarında yer alan eksi (-) işareti yerine alt çizgi işareti ile değiştirildi.
+veri_seti <- rename(veri_seti, "is_bruises" = "bruises?")
+veri_seti$stalk_surface_above_ring <- as.factor(str_replace_all(veri_seti$stalk_surface_above_ring, "ibrous", "fibrous")); veri_seti$stalk_surface_below_ring <- as.factor(str_replace_all(veri_seti$stalk_surface_below_ring, "ibrous", "fibrous")) # mushroom veri setinin stalk_surface_above_ring ve stalk_surface_below_ring değişkenlerindeki "ibrous" şeklindeki yazım hatası "fibrous" olarak düzeltildi ve veri setine eklendi.
+ikili <- as.dummy(veri_seti) # tüm nesneler ikili veriye çevrildi.
+
+```
+
+
+# ROCK Algoritması
+## Algoritmanın Uygulanması
+```{r Algoritmanın Uygulanması}
+
+# theta parametresi 0.8 iken örnekleme yapmadan tüm gözlemler dikkate alınarak ROCK algoritması aşağıdaki gibi çalıştırılabilir. Guha'nın makalesinde paylaşılan sonuçlar da buna eşittir.
+rc_k20_theta08 <- rockCluster(ikili, n=20, theta=0.8) # theta elverişli olmadığında küme sayısı theta'yi sağlamak adına 21 olarak gerçekleşti. k=21 olarak ayarlanan rc_k21_theta08 ile aynı sonuçları veriyor. 
+rc_k21_theta08 <- rockCluster(ikili, n=21, theta=0.8)
+
+# burada görüleceği gibi ulaşılan kümeler ise birbirinin aynıdır:
+table(Mushroom$class, rc_k20_theta08$cl)
+table(Mushroom$class, rc_k21_theta08$cl)
+rc_k20_theta08_kayipsiz <- rockCluster(Mushroom_21Var_Dummy, n=20, theta = 0.8)
+
+
+# 2 küme için ROCK algoritması:
+rc_k2_theta048 <- rockCluster(ikili, 2, theta = 0.48) # theta=0.48 olarak ayarlandığında 2 kümeye ulaşıldı. en uygun
+
+#theta tespit süreci:
+rc_k2_theta04 <- rockCluster(ikili, 2, theta = 0.4) # theta=0.4 olarak ayarlandığında 2 kümeye ulaşıldı. theta parametresi yükseltilerek tekrar denenmeli.
+rc_k2_theta045 <- rockCluster(ikili, 2, theta = 0.45) # theta=0.45 olarak ayarlandığında 2 kümeye ulaşıldı. theta parametresi yükseltilerek tekrar denenmeli.
+rc_k2_theta05 <- rockCluster(ikili, 2, theta = 0.5) # theta=0.5 olarak ayarlandığında 3 kümeye ulaşıldı.
+rc_k2_theta049 <- rockCluster(ikili, 2, theta = 0.49) # theta=0.49 olarak ayarlandığında 3 kümeye ulaşıldı.
+rc_k2_theta047 <- rockCluster(ikili, 2, theta = 0.47) # theta=0.47 olarak ayarlandığında 2 kümeye ulaşıldı. 
+
+
+# 4 küme için ROCK algoritması:
+rc_k4_theta053 <- rockCluster(ikili, 4, theta = 0.53) # theta=0.53 olarak ayarlandığında 4 kümeye ulaşılabildi. en uygunu.
+
+#theta tespit süreci:
+rc_k4_theta04 <- rockCluster(ikili, 4, theta = 0.4) # theta=0.4 olarak ayarlandığında 4 kümeye ulaşılabildi fakat daha  yüksek benzerlik yakalayabilmek için parametre mümkün olan en yüksek seviyeye çekilecek.
+rc_k4_theta06 <- rockCluster(ikili, 4, theta = 0.6) # theta=0.6 olarak ayarlandığında 7 kümeye ulaşıldığı için theta eşiğinin düşürülmesi gerekiyor.
+rc_k4_theta055 <- rockCluster(ikili, 4, theta = 0.55) # theta=0.55 olarak ayarlandığında 5 kümeye ulaşıldı.
+rc_k4_theta054 <- rockCluster(ikili, 4, theta = 0.54) # theta=0.54 olarak ayarlandığında 5 kümeye ulaşıldı.
+rc_k4_theta05 <- rockCluster(ikili, 4, theta = 0.5) # theta=0.5 olarak ayarlandığında 4 kümeye ulaşılabildi.
+
+
+# 13 küme için ROCK algoritması:
+rc_k13_theta069 <- rockCluster(ikili, 13, theta = 0.69) # theta=0.69 olarak ayarlandığında 13 kümeye ulaşıldı. theta=0.65 olarak seçildi. en uygunu.
+
+#theta tespit süreci:
+rc_k13_theta070 <- rockCluster(ikili, 13, theta = 0.70) # theta=0.70 olarak ayarlandığında 16 kümeye ulaşılıyor.
+rc_k13_theta067 <- rockCluster(ikili, 13, theta = 0.67) # theta=0.67 olarak ayarlandığında 13 kümeye ulaşılıyor.
+rc_k13_theta068 <- rockCluster(ikili, 13, theta = 0.68) # theta=0.68 olarak ayarlandığında 13 kümeye ulaşılıyor.
+
+
+
+# 23 küme için ROCK algoritması
+rc_k23_theta084 <- rockCluster(ikili, 23, theta = 0.84)
+rc_k23_theta090 <- rockCluster(ikili, 23, theta = 0.90) # küme sayısı 23 iken theta'nın alabileceği en büyük değer (virgülden sonraki 2 hane temel alındı.)
+
+rc_k2497_theta091 <- rockCluster(ikili, 2497, theta = 0.91) # küme sayısı aşırı artarak 2497 kümeye ulaşıyor.
+rc_k32_theta090 <- rockCluster(ikili, 32, theta = 0.90)
+
+
+
+```
+## Küme Değerlendirme Ölçümleri
+```{r Küme Kalitesi}
+
+degerlendirme_rc_k2 <- cluster.stats(uzaklik, as.numeric(rc_k2_theta048$cl)) # k=2 için hesaplanan ölçüler
+degerlendirme_rc_k4 <- cluster.stats(uzaklik, as.numeric(rc_k4_theta053$cl)) # k=4 için hesaplanan ölçüler
+degerlendirme_rc_k13 <- cluster.stats(uzaklik, as.numeric(rc_k13_theta069$cl)) # k=10 için hesaplanan ölçüler
+degerlendirme_rc_k21 <- cluster.stats(uzaklik, as.numeric(rc_k21_theta08$cl)) # k=21 için hesaplanan ölçüler
+degerlendirme_rc_k23 <- cluster.stats(uzaklik, as.numeric(rc_k23_theta090$cl)) # k=23 için hesaplanan ölçüler
+
+# davies- bouldin ölçüsüyle küme değerlendirme:
+degerlendirmedb_rc_k2 <- index.DB(x = ikili, cl = as.numeric(rc_k2_theta048$cl))
+degerlendirmedb_rc_k4 <- index.DB(x = ikili, cl = as.numeric(rc_k4_theta053$cl))
+degerlendirmedb_rc_k13 <- index.DB(x = ikili, cl = as.numeric(rc_k13_theta069$cl))
+degerlendirmedb_rc_k21 <- index.DB(x = ikili, cl = as.numeric(rc_k21_theta08$cl))
+degerlendirmedb_rc_k23 <- index.DB(x = ikili, cl = as.numeric(rc_k23_theta090$cl))
+
+# G2 ölçüsüyle küme değerlendirme:
+# kume degerlendirirken orneklemede kullanılacak indeksler oluşturuldu. ilgili rassal indeksler set.seed() fonksiyonu ile sabitleştirilip her seferinde aynı sayılara erişilebilir.
+
+set.seed(1883); orneklem_n1200 <- sample(1:8124, 1200) # aplha=0,05 ve d=+-0,03
+
+
+# 2 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_rc_k2_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], as.numeric(rc_k2_theta048$cl[orneklem_n1200]), G2 = TRUE) # k=2 ve n=1200 için hesaplanan G2 indeksi
+
+
+
+# 4 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_rc_k4_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], as.numeric(rc_k4_theta053$cl[orneklem_n1200]), G2 = TRUE) # k=4 ve n=1200 için hesaplanan G2 indeksi
+
+
+
+# 13 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_rc_k13_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], as.numeric(rc_k13_theta069$cl[orneklem_n1200]), G2 = TRUE) # k=13 ve n=1200 için hesaplanan G2 indeksi
+
+
+
+# 21 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_rc_k21_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], as.numeric(rc_k21_theta08$cl[orneklem_n1200]), G2 = TRUE) # k=21 ve n=1200 için hesaplanan G2 indeksi
+
+
+
+# 23 küme için değerlendirme (yalnızca işlem uzunluğu çok fazla olan G2 indeksi için oluşturuldu):
+degerlendirme_g2_rc_k23_n1200 <- cluster.stats(uzaklik[orneklem_n1200, orneklem_n1200], as.numeric(rc_k23_theta090$cl[orneklem_n1200]), G2 = TRUE) # k=23 ve n=1200 için hesaplanan G2 indeksi
+
+
+
+# küme değerlendirme ölçülerinin özetlenmesi
+kume_degerlendirme_faktorleri <- c(names(degerlendirme_rc_k2), names(degerlendirmedb_rc_k2)) # "kume_degerlendirme" fonksiyonu, oluşturulan kümeler değerlendirme ölçülerinin adını bir vektörde toplar.
+
+kume_degerlendirme <- lapply(
+    mget(objects()[startsWith(objects(), "degerlendirme")], mode = "list", envir = .GlobalEnv),
+    function(x) x[kume_degerlendirme_faktorleri]) # kume_degerlendirme_faktorleri temel alınarak tüm kume degerlendirme ölçülerini kume_degerlendirme içerisinde birleştirir.
+
+
+capture.output(print(sapply(
+    mget(objects()[startsWith(objects(), "degerlendirme_")], mode = "list", envir = .GlobalEnv),
+    function(x) x[]), max = 100000),
+  file = "kume_degerlendirme.txt"
+  ) # küme değerlendirme ölçülerinin bir ön izlemesi.
+
+capture.output(print(sapply(
+    mget(objects()[startsWith(objects(), "degerlendirmedb")], mode = "list", envir = .GlobalEnv),
+    function(x) x[]), max = 100000),
+  file = "kume_degerlendirme_db.txt"
+  ) # küme değerlendirme ölçülerinin bir ön izlemesi.
+
+
+```
+
+## Tablolaştırma
+```{r Tablolaştırma}
+
+table(rc_k21_theta08$cl) # 21 küme için rock algoritması sonucu
+
+# mantarların ait olduğu sınıflara göre rock algoritmasıyla üretilen kümeler:
+table(rc_k2_theta048$cl, Mushroom$class) # 2 küme için 
+table(rc_k4_theta053$cl, Mushroom$class) # 4 küme için
+table(rc_k13_theta069$cl, Mushroom$class) # 13 küme için
+table(rc_k21_theta08$cl, Mushroom$class) # 21 küme için
+table(rc_k23_theta090$cl, Mushroom$class) # 23 küme için
+
+# üretilen tablolar dışarı aktarılabilir:
+write.ftable(ftable(rc_k2_theta048$cl, Mushroom$class), 'rc_k2.csv')
+write.ftable(ftable(rc_k4_theta053$cl, Mushroom$class), 'rc_k4.csv')
+write.ftable(ftable(rc_k13_theta069$cl, Mushroom$class), 'rc_k13.csv')
+write.ftable(ftable(rc_k18_theta076$cl, Mushroom$class), 'rc_k18.csv')
+write.ftable(ftable(rc_k21_theta08$cl, Mushroom$class), 'rc_k21.csv')
+
+```
+
+
+
+
