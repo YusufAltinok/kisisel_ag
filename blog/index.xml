@@ -6,6 +6,8 @@
     <description>Recent content in Blogs on Kişisel Ağ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>tr</language>
+    <managingEditor>yusufaltinok@gmail.com (YA)</managingEditor>
+    <webMaster>yusufaltinok@gmail.com (YA)</webMaster>
     <copyright>Creative Commons Attribution-NonCommercial 4.0 International License ile korunmaktadır.</copyright>
     <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
     
@@ -16,7 +18,7 @@
       <title>Merhaba</title>
       <link>/blog/merhaba/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
-      
+      <author>yusufaltinok@gmail.com (YA)</author>
       <guid>/blog/merhaba/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Merhaba!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Bu site, güncel iletişim ihtiyaçları için var.&lt;/p&gt;</description>

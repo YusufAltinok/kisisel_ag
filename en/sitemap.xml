@@ -2,6 +2,33 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>/en/blog/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="tr"
+                        href="/blog/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="en"
+                    href="/en/blog/"
+                    /></url><url>
+            <loc>/en/blog/hello/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="tr"
+                        href="/blog/merhaba/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="en"
+                    href="/en/blog/hello/"
+                    /></url><url>
+            <loc>/en/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="tr"
+                        href="/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="en"
+                    href="/en/"
+                    /></url><url>
             <loc>/en/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
@@ -10,15 +37,6 @@
                     rel="alternate"
                     hreflang="en"
                     href="/en/ozgecmis/"
-                    /></url><url>
-            <loc>/en/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
-                        rel="alternate"
-                        hreflang="tr"
-                        href="/"
-                        /><xhtml:link
-                    rel="alternate"
-                    hreflang="en"
-                    href="/en/"
                     /></url><url>
             <loc>/en/kategori/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
