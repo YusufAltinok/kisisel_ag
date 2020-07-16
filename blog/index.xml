@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Kişisel Ağ</title>
-    <link>/blog/</link>
+    <link>https://yusufaltinok.com.tr/blog/</link>
     <description>Recent content in Blogs on Kişisel Ağ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>tr</language>
@@ -11,15 +11,15 @@
     <copyright>Creative Commons Attribution-NonCommercial 4.0 International License ile korunmaktadır.</copyright>
     <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://yusufaltinok.com.tr/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Merhaba</title>
-      <link>/blog/merhaba/</link>
+      <link>https://yusufaltinok.com.tr/blog/merhaba/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
       <author>yusufaltinok@gmail.com (YA)</author>
-      <guid>/blog/merhaba/</guid>
+      <guid>https://yusufaltinok.com.tr/blog/merhaba/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Merhaba!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Bu site, güncel iletişim ihtiyaçları için var.&lt;/p&gt;</description>
     </item>
