@@ -1,15 +1,15 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Tez - Kategoriler - Kişisel Ağ</title>
-        <link>https://yusufaltinok.com.tr/kategori/tez/</link>
+        <link>/kategori/tez/</link>
         <description>Tez - Kategoriler - Kişisel Ağ</description>
         <generator>Hugo -- gohugo.io</generator><language>tr</language><managingEditor>yusufaltinok@gmail.com (YA)</managingEditor>
-            <webMaster>yusufaltinok@gmail.com (YA)</webMaster><copyright>Creative Commons Attribution-NonCommercial 4.0 International License ile korunmaktadır.</copyright><lastBuildDate>Wed, 04 Mar 2020 15:58:26 &#43;0800</lastBuildDate><atom:link href="https://yusufaltinok.com.tr/kategori/tez/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>yusufaltinok@gmail.com (YA)</webMaster><copyright>Creative Commons Attribution-NonCommercial 4.0 International License ile korunmaktadır.</copyright><lastBuildDate>Wed, 04 Mar 2020 15:58:26 &#43;0800</lastBuildDate><atom:link href="/kategori/tez/" rel="self" type="application/rss+xml" /><item>
     <title>CLUCDUH ve ROCK Algoritmalarının Kodları</title>
-    <link>https://yusufaltinok.com.tr/clucduh-ve-rock-algoritmalarinin-kodlari/</link>
+    <link>/clucduh-ve-rock-algoritmalarinin-kodlari/</link>
     <pubDate>Wed, 04 Mar 2020 15:58:26 &#43;0800</pubDate>
     <author>Yazar</author>
-    <guid>https://yusufaltinok.com.tr/clucduh-ve-rock-algoritmalarinin-kodlari/</guid>
+    <guid>/clucduh-ve-rock-algoritmalarinin-kodlari/</guid>
     <description><![CDATA[Veri Madenciliğinde Hiyerarşik Kümeleme Algoritmalarının Uygulamalı Karşılaştırılması adlı tezde, CLUCDUH algoritması için R’de geliştirilen kodlar ile ROCK algoritması için kullanılan kodlara1 bu sayfadan ulaşılabilir.
   CLUCDUH algoritması R kodları
   ROCK algoritması R kodları
@@ -17,13 +17,14 @@
    ]]></description>
 </item><item>
     <title>Veri Madenciliğinde Hiyerarşik Kümeleme Algoritmalarının Uygulamalı Karşılaştırılması</title>
-    <link>https://yusufaltinok.com.tr/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</link>
+    <link>/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</link>
     <pubDate>Wed, 04 Mar 2020 15:58:26 &#43;0800</pubDate>
     <author>Yazar</author>
-    <guid>https://yusufaltinok.com.tr/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</guid>
+    <guid>/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</guid>
     <description><![CDATA[İlgili yüksek lisans tezine https://tez.yok.gov.tr/UlusalTezMerkezi/ adresinden veya bu sayfadan erişebilirsiniz.
 Tezde kullanılan R kodlarına bu sayfadan ulaşabilirsiniz.
-Ayrıca, bu tez yazılırken en çok dinlenen müziklere de şuradan ulaşabilirsiniz: 🙂
+Görüntülemede sorun yaşıyorsanız PDF olarak açabilirsiniz.
+ Ayrıca, bu tez yazılırken en çok dinlenen müziklere de şuradan ulaşabilirsiniz: 🙂
 ]]></description>
 </item></channel>
 </rss>

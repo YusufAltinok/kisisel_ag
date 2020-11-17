@@ -2,51 +2,51 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://yusufaltinok.com.tr/blog/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/blog/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://yusufaltinok.com.tr/en/blog/"
+                        href="/en/blog/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="tr"
-                    href="https://yusufaltinok.com.tr/blog/"
+                    href="/blog/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://yusufaltinok.com.tr/en/"
+                        href="/en/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="tr"
-                    href="https://yusufaltinok.com.tr/"
+                    href="/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/blog/merhaba/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/blog/merhaba/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://yusufaltinok.com.tr/en/blog/hello/"
+                        href="/en/blog/hello/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="tr"
-                    href="https://yusufaltinok.com.tr/blog/merhaba/"
+                    href="/blog/merhaba/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/clucduh-ve-rock-algoritmalarinin-kodlari/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://yusufaltinok.com.tr/kategori/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/clucduh-ve-rock-algoritmalarinin-kodlari/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>/kategori/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://yusufaltinok.com.tr/en/kategori/"
+                        href="/en/kategori/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="tr"
-                    href="https://yusufaltinok.com.tr/kategori/"
+                    href="/kategori/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/kategori/tez/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://yusufaltinok.com.tr/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://yusufaltinok.com.tr/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/kategori/tez/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
-                        href="https://yusufaltinok.com.tr/en/ozgecmis/"
+                        href="/en/ozgecmis/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="tr"
-                    href="https://yusufaltinok.com.tr/ozgecmis/"
+                    href="/ozgecmis/"
                     /></url></urlset>

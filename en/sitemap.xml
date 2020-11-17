@@ -2,48 +2,48 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://yusufaltinok.com.tr/en/blog/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/en/blog/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
-                        href="https://yusufaltinok.com.tr/blog/"
+                        href="/blog/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://yusufaltinok.com.tr/en/blog/"
+                    href="/en/blog/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/en/blog/hello/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/en/blog/hello/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
-                        href="https://yusufaltinok.com.tr/blog/merhaba/"
+                        href="/blog/merhaba/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://yusufaltinok.com.tr/en/blog/hello/"
+                    href="/en/blog/hello/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/en/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/en/</loc><lastmod>2020-03-26T04:43:48&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
-                        href="https://yusufaltinok.com.tr/"
+                        href="/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://yusufaltinok.com.tr/en/"
+                    href="/en/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/en/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/en/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
-                        href="https://yusufaltinok.com.tr/ozgecmis/"
+                        href="/ozgecmis/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://yusufaltinok.com.tr/en/ozgecmis/"
+                    href="/en/ozgecmis/"
                     /></url><url>
-            <loc>https://yusufaltinok.com.tr/en/kategori/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/en/kategori/</loc><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="tr"
-                        href="https://yusufaltinok.com.tr/kategori/"
+                        href="/kategori/"
                         /><xhtml:link
                     rel="alternate"
                     hreflang="en"
-                    href="https://yusufaltinok.com.tr/en/kategori/"
+                    href="/en/kategori/"
                     /></url></urlset>

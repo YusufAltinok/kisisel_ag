@@ -2,24 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogs on Personal Web</title>
-    <link>https://yusufaltinok.com.tr/en/blog/</link>
+    <link>/en/blog/</link>
     <description>Recent content in Blogs on Personal Web</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>yusufaltinok@gmail.com (YA)</managingEditor>
     <webMaster>yusufaltinok@gmail.com (YA)</webMaster>
     <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-    <lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://yusufaltinok.com.tr/en/blog/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 26 Mar 2020 00:00:00 +0000</lastBuildDate><atom:link href="/en/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hello</title>
-      <link>https://yusufaltinok.com.tr/en/blog/hello/</link>
+      <link>/en/blog/hello/</link>
       <pubDate>Thu, 26 Mar 2020 00:00:00 +0000</pubDate>
       <author>yusufaltinok@gmail.com (YA)</author>
-      <guid>https://yusufaltinok.com.tr/en/blog/hello/</guid>
+      <guid>/en/blog/hello/</guid>
       <description>&lt;p&gt;&lt;strong&gt;Hello!&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;This site is intended for current communication needs.&lt;/p&gt;</description>
     </item>

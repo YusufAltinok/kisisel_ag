@@ -1,10 +1,10 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Personal Web</title>
-        <link>https://yusufaltinok.com.tr/en/</link>
+        <link>/en/</link>
         <description>Yusuf Altınok | Personal Web</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>yusufaltinok@gmail.com (YA)</managingEditor>
             <webMaster>yusufaltinok@gmail.com (YA)</webMaster><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Thu, 26 Mar 2020 00:00:00 &#43;0000</lastBuildDate>
-            <atom:link href="https://yusufaltinok.com.tr/en/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="/en/index.xml" rel="self" type="application/rss+xml" />
         </channel>
 </rss>
