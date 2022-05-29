@@ -39,8 +39,6 @@
                     hreflang="tr"
                     href="/kategori/"
                     /></url><url>
-            <loc>/kategori/tez/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
@@ -49,4 +47,6 @@
                     rel="alternate"
                     hreflang="tr"
                     href="/ozgecmis/"
-                    /></url></urlset>
+                    /></url><url>
+            <loc>/kategori/tez/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>/veri-madenciliginde-hiyerarsik-kumeleme-algoritmalarinin-uygulamali-karsilastirilmasi/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>
