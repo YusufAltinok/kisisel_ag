@@ -2,7 +2,7 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>/blog/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/blog/</loc><lastmod>2022-09-22T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="/en/blog/"
@@ -11,7 +11,17 @@
                     hreflang="tr"
                     href="/blog/"
                     /></url><url>
-            <loc>/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
+            <loc>/kategori/g%C3%B6rselle%C5%9Ftirme/</loc><lastmod>2022-09-22T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>/kategori/</loc><lastmod>2022-09-22T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
+                        rel="alternate"
+                        hreflang="en"
+                        href="/en/kategori/"
+                        /><xhtml:link
+                    rel="alternate"
+                    hreflang="tr"
+                    href="/kategori/"
+                    /></url><url>
+            <loc>/</loc><lastmod>2022-09-22T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
                         href="/en/"
@@ -20,6 +30,7 @@
                     hreflang="tr"
                     href="/"
                     /></url><url>
+            <loc>/blog/nisantasi-mis-sample-dashboard/</loc><lastmod>2022-09-22T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>/blog/merhaba/</loc><lastmod>2020-03-23T00:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
@@ -30,15 +41,6 @@
                     href="/blog/merhaba/"
                     /></url><url>
             <loc>/clucduh-ve-rock-algoritmalarinin-kodlari/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>/kategori/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
-                        rel="alternate"
-                        hreflang="en"
-                        href="/en/kategori/"
-                        /><xhtml:link
-                    rel="alternate"
-                    hreflang="tr"
-                    href="/kategori/"
-                    /></url><url>
             <loc>/ozgecmis/</loc><lastmod>2020-03-04T15:58:26&#43;08:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority><xhtml:link
                         rel="alternate"
                         hreflang="en"
